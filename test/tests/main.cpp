@@ -11,6 +11,8 @@
 #include "../../functions.hpp"
 #include "../../Perceptron/Layer.hpp"
 
+#include "../../include.hpp"
+
 void randomTest();
 void fillTest();
 void layerTest();
