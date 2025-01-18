@@ -1,3 +1,3 @@
 #define FCF_IMPLEMENTATION
-#include "../../FunctionRegistrator.hpp"
+#include "../../math.hpp"
 

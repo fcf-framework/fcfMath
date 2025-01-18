@@ -13,7 +13,7 @@ namespace fcf {
       class Layers {
         typedef std::shared_ptr< Layer<Ty> > PLayer;
         public:
-          typedef BasicIterator< BaseIterator< Layers<Ty> > > iterator;
+          typedef BasicIterator< BaseIndexIterator< Layers<Ty> > > iterator;
 
           template <typename TLayersOptions>
           Layers(const TLayersOptions& a_lo) {
@@ -58,22 +58,22 @@ namespace fcf {
   } // Math namespace
 } // fcf namespace
 
+
 namespace fcf {
-  namespace Math {
 
-    template <typename Ty>
-    struct ContainerInfo< Perceptron::Layers<Ty> > {
-      typedef Perceptron::Layers<Ty> owner_type;
-      typedef Ty                     data_type;
-      typedef Perceptron::Layer<Ty>  value_type;
-      enum { flat = false };
-      enum { source = false };
-      size_t step(const owner_type& a_container){
-        return 1;
-      }
-    };
+  template <typename Ty>
+  struct Type< Math::Perceptron::Layers<Ty> > : public fcf::BaseContainerType< Math::Perceptron::Layers<Ty> > {
 
-  } // Math namespace
+    typedef Math::Perceptron::Layers<Ty> owner_type;
+
+    typedef Ty data_type;
+
+    typedef Math::Perceptron::Layer<Ty> value_type;
+
+    enum { container = true };
+
+  };
+
 } // fcf namespace
 
 #endif // #ifndef ___FCF_MATH__PERCEPTRON__LAYERS_HPP___

@@ -3,10 +3,14 @@
 
 #include <memory>
 #include <vector>
+
+#define FCF_MATH_INCLUDE_LIBRARY fcfBasis
+#define FCF_MATH_INCLUDE_FILE    iterator.hpp
+#include "../include.hpp" // as #include <fcfBasis/iterator.hpp>
+
 #include "LayerOptions.hpp"
 #include "LayerWeights.hpp"
-#include "../functions.hpp"
-#include "../BasicIterator.hpp"
+
 namespace fcf {
   namespace Math {
     namespace Perceptron {
@@ -112,15 +116,17 @@ namespace fcf {
 } // fcf namespace
 
 namespace fcf {
-  namespace Math {
 
     template <typename Ty>
-    struct ContainerInfo< Perceptron::Weights<Ty> > {
+    struct Type< Math::Perceptron::Weights<Ty> > : public fcf::BaseContainerType< Math::Perceptron::Weights<Ty> > {
+
+      typedef Math::Perceptron::Weights<Ty> owner_type;
+
       typedef Ty data_type;
-      enum    { flat = false };
-      enum    { source = false };
+
+      typedef Ty* value_type;
     };
-  } // Math namespace
+
 } // fcf namespace
 
 

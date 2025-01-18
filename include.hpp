@@ -1,7 +1,5 @@
-#ifndef ___FCF_MATH__INCLUDE_HPP___
-#define ___FCF_MATH__INCLUDE_HPP___
-
 #include "macro.hpp"
+
 
 #ifndef FCF_MATH_EXTERNAL_DEPENDENCIES
   #ifdef FCF_MATH_IMPLEMENTATION
@@ -14,11 +12,41 @@
       #define FCF_PARALLEL_EXPORT
     #endif
   #endif
-  #include "libraries/fcfParallel/parallel.hpp"
+#endif
+
+#ifndef FCF_MATH_EXTERNAL_DEPENDENCIES
+  #ifdef FCF_MATH_IMPLEMENTATION
+    #ifndef FCF_BASIS_IMPLEMENTATION
+      #define FCF_BASIS_IMPLEMENTATION
+    #endif
+  #endif
+  #ifdef FCF_MATH_EXPORT
+    #ifndef FCF_BASIS_EXPORT
+      #define FCF_BASIS_EXPORT
+    #endif
+  #endif
+#endif
+
+#if defined(FCF_MATH_INCLUDE_LIBRARY) && defined(FCF_MATH_INCLUDE_FILE)
+  #ifndef FCF_MATH_EXTERNAL_DEPENDENCIES
+    #define FCF_MATH_INCLUDE_LINE FCF_MATH_STR(libraries/FCF_MATH_INCLUDE_LIBRARY/FCF_MATH_INCLUDE_FILE)
+  #else
+    #define FCF_MATH_INCLUDE_LINE <libraries/FCF_MATH_INCLUDE_LIBRARY/FCF_MATH_INCLUDE_FILE>
+  #endif
+  #include FCF_MATH_INCLUDE_LINE
+  #undef FCF_MATH_INCLUDE_LIBRARY
+  #undef FCF_MATH_INCLUDE_FILE
+  #undef FCF_MATH_INCLUDE_LINE
 #else
-  #include <fcfParallel/parallel.hpp>
-#endif
+  #ifndef FCF_MATH_EXTERNAL_DEPENDENCIES
+    #include "libraries/fcfParallel/parallel.hpp"
+    #include "libraries/fcfBasis/basis.hpp"
+  #else
+    #include <fcfParallel/parallel.hpp>
+    #include <fcfBasis/basis.hpp>
+  #endif
+#endif // #if defined(FCF_INCLUDE_LIBRARY) && defined(FCF_INCLUDE_FILE)
 
 
-#endif
+
 

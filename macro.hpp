@@ -25,6 +25,9 @@
   #endif
 #endif
 
+#define FCF_MATH_STR_L1(a_arg1) #a_arg1
+#define FCF_MATH_STR(a_arg1) FCF_MATH_STR_L1(a_arg1)
+
 #ifndef FCF_MATH_DELC_EXTERN
   #ifdef FCF_MATH_IMPLEMENTATION
     #define FCF_MATH_DELC_EXTERN
@@ -47,40 +50,14 @@
   #endif
 #endif
 
-#ifndef FCF_MATH_GET_FUNCTION_INDEX
-  #define FCF_MATH_GET_FUNCTION_INDEX(a_name, a_signature) \
-    ::fcf::Math::FunctionRegistrator::getIndex<a_signature>(a_name)
+#ifndef FCF_GET_FUNCTION_INDEX
+  #define FCF_GET_FUNCTION_INDEX(a_name, a_signature) \
+    ::fcf::IndexableFunctionRegistrator::getIndex<a_signature>(a_name)
 #endif
 
-#ifndef FCF_MATH_GET_FUNCTION
-  #define FCF_MATH_GET_FUNCTION(a_index) \
-    ::fcf::Math::Details::g_functions[a_index].function
+#ifndef FCF_GET_FUNCTION
+  #define FCF_GET_FUNCTION(a_index) \
+    ::fcf::Details::IndexableFunction::getStorage().functions[a_index].function
 #endif
-
-#ifndef FCF_MATH_REGISTRY_FUNCTION
-  #define FCF_MATH_REGISTRY_FUNCTION__VARNAME2(a_varName, a_funcName, a_line) a_varName##_##a_funcName##_##a_line
-  #define FCF_MATH_REGISTRY_FUNCTION__VARNAME(a_varName, a_funcName, a_line) FCF_MATH_REGISTRY_FUNCTION__VARNAME2(a_varName, a_funcName, a_line)
-  #define FCF_MATH_REGISTRY_FUNCTION(a_name, a_source, a_signature) \
-    FunctionRegistrator \
-      FCF_MATH_REGISTRY_FUNCTION__VARNAME(functionRegistrator, a_name, __LINE__) \
-        ( \
-          #a_name, \
-          static_cast<a_signature>(a_source)\
-        );
-#endif // #ifndef FCF_MATH_REGISTRY_FUNCTION
-
-#ifndef FCF_MATH_DECLARE_FUNCTION
-  #define FCF_MATH_DECLARE_FUNCTION__VARNAME2(a_varName, a_funcName, a_line) a_varName##_##a_funcName##_##a_line
-  #define FCF_MATH_DECLARE_FUNCTION__VARNAME(a_varName, a_funcName, a_line) FCF_MATH_DECLARE_FUNCTION__VARNAME2(a_varName, a_funcName, a_line)
-  #define FCF_MATH_DECLARE_FUNCTION(a_name, a_sourceName, a_signature, a_sourceCode) \
-    a_sourceCode; \
-    ::fcf::Math::FunctionRegistrator \
-      FCF_MATH_DECLARE_FUNCTION__VARNAME(functionRegistrator, a_name, __LINE__) \
-        ( \
-          #a_name, \
-          static_cast<a_signature>(a_sourceName),\
-          #a_sourceCode\
-        );
-#endif // #ifndef FCF_MATH_DECLARE_FUNCTION
 
 #endif // #ifndef ___FCF_MATH__MACRO_HPP___

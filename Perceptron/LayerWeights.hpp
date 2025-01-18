@@ -2,7 +2,13 @@
 #define ___FCF_MATH__PERCEPTRON__LAYER_WEIGHTS_HPP___
 
 #include <vector>
-#include "../BasicIterator.hpp"
+
+#include "../macro.hpp"
+
+#define FCF_MATH_INCLUDE_LIBRARY fcfBasis
+#define FCF_MATH_INCLUDE_FILE    iterator.hpp
+#include "../include.hpp" // as #include <fcfBasis/iterator.hpp>
+
 #include "LayerOptions.hpp"
 
 namespace fcf {
@@ -103,27 +109,28 @@ namespace fcf {
 } // fcf namespace
 
 namespace fcf {
-  namespace Math {
 
     template <typename Ty>
-    struct ContainerInfo< Perceptron::LayerWeights<Ty> > {
+    struct Type< Math::Perceptron::LayerWeights<Ty> > : public fcf::BaseContainerType< Math::Perceptron::LayerWeights<Ty> > {
+
+      typedef Math::Perceptron::LayerWeights<Ty> owner_type;
+
       typedef Ty data_type;
-      enum { flat = true };
-      enum { source = false };
-      data_type* pointer(Perceptron::LayerWeights<Ty>& a_container){
-        return a_container[0];
-      }
-      size_t totalSize(const Perceptron::LayerWeights<Ty>& a_container){
-        return a_container.layerSize1() * a_container.layerSize2();
-      }
-      Ty min(const Perceptron::LayerWeights<Ty>& a_container){
+
+      typedef Ty* value_type;
+    };
+
+    template <typename Ty>
+    struct Type< Math::Perceptron::LayerWeights<Ty>, MinMaxSpecificator > {
+      Ty min(const Math::Perceptron::LayerWeights<Ty>& a_container){
         return a_container.initMin();
       }
-      Ty max(const Perceptron::LayerWeights<Ty>& a_container){
+      Ty max(const Math::Perceptron::LayerWeights<Ty>& a_container){
         return a_container.initMax();
       }
     };
-  } // Math namespace
+
+
 } // fcf namespace
 
 

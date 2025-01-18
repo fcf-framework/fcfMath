@@ -3,8 +3,10 @@
 
 #include <vector>
 #include "LayerOptions.hpp"
-#include "../BasicIterator.hpp"
-#include "../BaseIterator.hpp"
+
+#define FCF_MATH_INCLUDE_LIBRARY fcfBasis
+#define FCF_MATH_INCLUDE_FILE    iterator.hpp
+#include "../include.hpp" // as #include <fcfBasis/iterator.hpp>
 
 namespace fcf {
   namespace Math {
@@ -13,7 +15,8 @@ namespace fcf {
       template <typename Ty>
       class Layer {
         public:
-         typedef BasicIterator< BaseIterator< Layer<Ty> > > iterator;
+          typedef BasicIterator< BaseIndexIterator< Layer<Ty> > > iterator;
+
           Layer(const LayerOptions& a_layerOptions)
             : _data(a_layerOptions.size, 0){
           }
@@ -46,30 +49,17 @@ namespace fcf {
 
 
 namespace fcf {
-  namespace Math {
 
-    template <typename TContainer>
-    struct ContainerInfo;
+  template <typename Ty>
+  struct Type< Math::Perceptron::Layer<Ty> > : public fcf::BaseContainerType< Math::Perceptron::Layer<Ty> > {
 
-    template <typename Ty>
-    struct ContainerInfo< Perceptron::Layer<Ty> > {
-      typedef Perceptron::Layer<Ty> owner_type;
-      typedef Ty                    data_type;
-      typedef Ty                    value_type;
-      enum { flat = true };
-      enum { source = true };
-      data_type* pointer(owner_type& a_container){
-        return &a_container[0];
-      }
-      size_t step(const owner_type& a_container){
-        return 1;
-      }
-      size_t totalSize(const owner_type& a_container){
-        return a_container.size();
-      }
-    };
+    typedef Math::Perceptron::Layer<Ty> owner_type;
 
-  } // Math namespace
+    typedef Ty data_type;
+
+    typedef Ty value_type;
+
+  };
 } // fcf namespace
 
 #endif // #ifndef ___FCF_MATH__PERCEPTRON__LAYER_HPP___
